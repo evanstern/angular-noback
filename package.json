@@ -1,6 +1,6 @@
 {
   "name": "angular-noback",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A toolset to allow development of resources without ever hitting a backend",
   "main": "angular-noback.js",
   "scripts": {
