@@ -1,7 +1,92 @@
-/**
- * A toolset to allow development of resources without ever hitting a backend
- * @version v0.0.0 - 2014-11-06
- * @link https://github.com/evanstern/angular-noback
- * @author Evan Stern <evanmicahstern@gmail.com>
- * @license MIT License, http://www.opensource.org/licenses/MIT
- */!function(){"use strict";var a=angular.module("noback",[]),b=function(a){a||(a={}),this.items=[],this.options=_.extend({newId:function(){return _.uniqueId()},idFieldName:"id",idLookup:function(a){return a[this.options.idFieldName]}},a)};b.prototype.save=function(a){var b,c;a=this.clone(a);try{c=this.options.idLookup.call(this,a)}catch(d){}if(c){var e=_.find(this.items,_.bind(function(a){return this.options.idLookup.call(this,a)===c},this));if(_.isUndefined(e))throw new d("Item with id "+c+" could not be found");b=_.extend(e,a)}else a[this.options.idFieldName]=_.result(this.options,"newId"),this.items.unshift(a),b=a;return this.clone(b)},b.prototype.remove=function(a){var b,c=this.options.idLookup.call(this,a),d=-1;return _.each(this.items,_.bind(function(a,b){return this.options.idLookup.call(this,a)===c?void(d=b):void 0},this)),d>=0&&(b=this.items.splice(d,1),b=b instanceof Array?b[0]:b),this.clone(b)},b.prototype.select=function(a){var b=_.map(_.filter(this.items,a),_.bind(function(a){return this.clone(a)},this));return b},b.prototype.selectAll=function(){return _.map(this.items,_.bind(function(a){return this.clone(a)},this))},b.prototype.clone=function(a){return _.isUndefined(a)?a:JSON.parse(JSON.stringify(a))},a.service("MockRepository",function(){return b})}();
+/* global _:false */
+
+(function() {
+  'use strict';
+
+  var noback = angular.module('noback', []);
+
+  var MockRepository = function MockRepository(options) {
+    options || (options = {});
+
+    this.items = [];
+
+    this.options = _.extend({
+      newId: function() { return _.uniqueId(); },
+      idFieldName: 'id',
+      idLookup: function(resource) {
+        return resource[this.options.idFieldName];
+      }
+    }, options);
+  };
+
+  MockRepository.prototype.save = function(resource) {
+    var returnValue;
+    var resourceId;
+
+    resource = this.clone(resource);
+
+    try {
+      resourceId = this.options.idLookup.call(this, resource);
+    } catch(Error) {/* ignore */}
+
+    if (!resourceId) {
+      resource[this.options.idFieldName] = _.result(this.options, 'newId');
+      this.items.unshift(resource);
+      returnValue = resource;
+    } else {
+      var item = _.find(this.items, _.bind(function(itm) {
+        return this.options.idLookup.call(this, itm) === resourceId;
+      }, this));
+
+      if (_.isUndefined(item)) {
+        throw new Error('Item with id ' + resourceId + ' could not be found');
+      }
+
+      returnValue = _.extend(item, resource);
+    }
+
+    return this.clone(returnValue);
+  };
+
+  MockRepository.prototype.remove = function(toRemove) {
+    var removed;
+    var rId = this.options.idLookup.call(this, toRemove);
+    var idx = -1;
+
+    _.each(this.items, _.bind(function(itm, i) {
+      if (this.options.idLookup.call(this, itm) === rId) {
+        idx = i;
+        return;
+      }
+    }, this));
+
+    if (idx >= 0) {
+      removed = this.items.splice(idx, 1);
+      removed = removed instanceof(Array) ? removed[0] : removed;
+    }
+
+    return this.clone(removed);
+  };
+
+  MockRepository.prototype.select = function(criteria) {
+    var result = _.map(_.filter(this.items, criteria), _.bind(function(item) {
+      return this.clone(item);
+    }, this));
+    return result;
+  };
+
+  MockRepository.prototype.selectAll = function() {
+    return _.map(this.items, _.bind(function(item) {
+      return this.clone(item);
+    }, this));
+  };
+
+  MockRepository.prototype.clone = function(obj) {
+    if (_.isUndefined(obj)) { return obj; }
+    return JSON.parse(JSON.stringify(obj));
+  };
+
+  noback.service('MockRepository', function() {
+    return MockRepository;
+  });
+})();

@@ -18,6 +18,7 @@ module.exports = function(grunt) {
         autoWatch: false
       }
     },
+
     uglify: {
       options: {
         banner: [
@@ -32,10 +33,19 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          'angular-noback.js': 'src/angular-noback.js'
+          'angular-noback.min.js': 'src/angular-noback.js'
         }
       }
     },
+
+    copy: {
+      source: {
+        files: [
+          {src: 'angular-noback.js', dest: '.', cwd: 'src', expand: true}
+        ]
+      }
+    },
+
     bump: {
       options: {
         files: ['package.json', 'bower.json'],
@@ -54,5 +64,10 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('test', ['karma:build']);
+  grunt.registerTask('dist', [
+    'uglify:dist',
+    'copy:source'
+  ]);
+
 };
 
