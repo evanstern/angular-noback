@@ -1,0 +1,25 @@
+{
+  "name": "angular-noback",
+  "version": "0.0.0",
+  "homepage": "https://github.com/evanstern/angular-noback",
+  "authors": [
+    "Evan Stern <evanmicahstern@gmail.com>"
+  ],
+  "description": "A toolset to allow development of resources without ever hitting a backend",
+  "main": "angular-noback.js",
+  "keywords": [
+    "AngularJS"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3.1",
+    "lodash": "~2.4.1"
+  }
+}

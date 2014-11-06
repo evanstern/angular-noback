@@ -1,0 +1,32 @@
+{
+  "name": "angular-noback",
+  "version": "0.0.0",
+  "description": "A toolset to allow development of resources without ever hitting a backend",
+  "main": "angular-noback.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/evanstern/angular-noback.git"
+  },
+  "keywords": [
+    "AngularJS"
+  ],
+  "author": "Evan Stern <evanmicahstern@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/evanstern/angular-noback/issues"
+  },
+  "homepage": "https://github.com/evanstern/angular-noback",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-karma": "^0.9.0",
+    "karma": "^0.12.24",
+    "karma-jasmine": "^0.2.3",
+    "karma-mocha-reporter": "^0.3.1",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "load-grunt-tasks": "^1.0.0"
+  }
+}
