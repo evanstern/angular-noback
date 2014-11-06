@@ -17,6 +17,39 @@ module.exports = function(grunt) {
         singleRun: true,
         autoWatch: false
       }
+    },
+    uglify: {
+      options: {
+        banner: [
+          '/**',
+          ' * <%= pkg.description %>',
+          ' * @version v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>',
+          ' * @link <%= pkg.homepage %>',
+          ' * @author <%= pkg.author %>',
+          ' * @license MIT License, http://www.opensource.org/licenses/MIT',
+          ' */'
+        ].join('\n')
+      },
+      dist: {
+        files: {
+          'angular-noback.js': 'src/angular-noback.js'
+        }
+      }
+    },
+    bump: {
+      options: {
+        files: ['package.json', 'bower.json'],
+        updateConfigs: [],
+        commit: false,
+        commitMessage: 'Release v%VERSION%',
+        commitFiles: ['-a'],
+        createTag: true,
+        tagName: 'v%VERSION%',
+        tagMessage: 'Version %VERSION%',
+        push: false,
+        pushTo: 'origin',
+        gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
+      }
     }
   });
 
